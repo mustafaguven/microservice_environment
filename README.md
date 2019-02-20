@@ -13,10 +13,15 @@ Config Server  | 8888 ~    | Java
 Hystrix Dashboard | 7979 ~ (management: 7980)   | Java
 Turbine  | 9999 ~  | Java
 Zuul API Proxy  | 8400 ~  | Java
+Auth Center  | 8081 ~  | Java
 Catalog Service  | 8800 ~  | Java
 Payment Service  | 8900 ~  | Java
 Product Service  | 9000 ~  | Kotlin
 FrontEnd Service  | 14000 ~  | Java
+
+# Additional Library
+
+jwtcommon (spring security common lib) is used by zuul-api and auth-center (https://github.com/mustafaguven/jwtcommon)
 
 # Notes
                 
@@ -31,6 +36,8 @@ $ maven clean install
 ```
 docker-compose up --scale product-service=3 -d
 ```
+![](https://s3-eu-west-1.amazonaws.com/videotestpoc/Screen+Shot+2019-02-19+at+16.15.22.png)
+
 6. Use microservice-starter for Java projects and kotlin-starter for Kotlin projects. 
 ```
 service pom >> kotlin pom (for kotlin projects) >> java pom >> spring boot pom
@@ -45,14 +52,24 @@ http://localhost:8400/actuator/bus-refresh
 ```
  docker build --build-arg version=1.5.3 -f Dockerfile -t turbine .
 ```
-
-![](https://s3-eu-west-1.amazonaws.com/videotestpoc/Screen+Shot+2019-02-04+at+13.50.15.png)
-
+or
+```
+docker rmi auth-center || mvn clean install -DskipTests && docker build -f Dockerfile -t auth-center .
+```
 10. To use turbine through docker give below link as streamer
-
 ```
  turbine:9999/turbine.stream
 ```
-
 ![]()
 [![](https://s3-eu-west-1.amazonaws.com/videotestpoc/hystrix-turbine.gif)](https://s3-eu-west-1.amazonaws.com/videotestpoc/turbine.mov)
+
+11. Zuul API and Auth-center demands attended roles for every user due to authorization issues. During the first time of mysql running make sure that you execute all the commands which listed in sql authorization file.
+
+12. To enter mysql cli, use below commands
+```
+docker exec -it mysql sh
+.
+.
+(having entered into the container shell)
+mysql -uroot -ppassword
+```
