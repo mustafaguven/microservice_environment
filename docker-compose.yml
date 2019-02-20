@@ -1,0 +1,153 @@
+version: '3.6'
+services:
+  config-server:
+    container_name: config-server
+    image: config-server
+    restart: always
+    ports:
+      - 8888:8888
+    networks:
+      - backend
+
+  eureka-server:
+    container_name: eureka-server
+    image: eureka-server
+    restart: always
+    ports:
+      - 8761:8761
+    networks:
+      - backend
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+          - RABBITMQ_DEFAULT_USER=mg
+          - RABBITMQ_DEFAULT_PASS=123456
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - backend
+
+  redis:
+   container_name: redis
+   image: redis
+   command: [ "redis-server", "--protected-mode", "no" ]
+   hostname: redis
+   restart: always
+   ports:
+     - 6379:6379
+   networks:
+     - backend
+
+  mysql:
+    image: "mysql:5.6"
+    container_name: mysql
+    command: "mysqld --user=root --verbose"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: security
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - backend
+    volumes:
+      - mysql-volume:/var/lib/mysql
+
+  zuul-proxy:
+    image: zuul-proxy
+    restart: always
+    expose:
+      - "8400"
+    environment:
+      - ENV_REDIS_HOSTNAME=redis
+    networks:
+      - backend
+    depends_on:
+      - eureka-server
+
+  auth-center:
+    #container_name: auth-center
+    image: auth-center
+    restart: always
+    expose:
+      - "8400"
+    environment:
+      - ENV_REDIS_HOSTNAME=redis
+    # ports:
+    #   - 8081:8081
+    networks:
+      - backend
+    depends_on:
+      - eureka-server
+
+  nginx:
+      image: nginx:latest
+      volumes:
+        - ./conf.d:/etc/nginx/conf.d
+      depends_on:
+        - zuul-proxy
+      networks:
+        - backend
+      ports:
+        - "8400:8400"
+
+  catalog-service:
+    container_name: catalog-service
+    image: catalog-service
+    restart: always
+    ports:
+      - 8800:8800
+    # expose:
+    #   - "8800"
+    networks:
+      - backend
+    depends_on:
+      - zuul-proxy
+
+  product-service:
+    #container_name: product-service
+    image: product-service
+    restart: always
+    # ports:
+    #   - 9000:9000
+    expose:
+      - "9000"
+    networks:
+      - backend
+    depends_on:
+      - zuul-proxy
+
+  hystrix-dashboard:
+    container_name: hystrix-dashboard
+    image: hystrix-dashboard
+    restart: unless-stopped
+    ports:
+      - 7979:7979
+      - 7980:7980
+    networks:
+      - backend
+    depends_on:
+      - eureka-server
+
+  turbine:
+    container_name: turbine
+    image: turbine
+    restart: unless-stopped
+    ports:
+      - 9999:9999
+    networks:
+      - backend
+    depends_on:
+      - eureka-server
+
+networks:
+  backend:
+    driver: "bridge"
+
+volumes:
+  mysql-volume:

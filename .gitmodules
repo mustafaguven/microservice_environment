@@ -1,0 +1,39 @@
+[submodule "config-data"]
+	path = config-data
+	url = https://github.com/mustafaguven/config-data.git
+[submodule "jwtcommon"]
+	path = jwtcommon
+	url = https://github.com/mustafaguven/jwtcommon.git
+[submodule "auth-center"]
+	path = auth-center
+	url = https://github.com/mustafaguven/auth-center.git
+[submodule "zuul"]
+	path = zuul
+	url = https://github.com/mustafaguven/zuul.git
+[submodule "hystrix-dashboard"]
+	path = hystrix-dashboard
+	url = https://github.com/mustafaguven/hystrix-dashboard.git
+[submodule "turbine"]
+	path = turbine
+	url = https://github.com/mustafaguven/turbine.git
+[submodule "microservice_parent_pom"]
+	path = microservice_parent_pom
+	url = https://github.com/mustafaguven/microservice_parent_pom.git
+[submodule "product-service"]
+	path = product-service
+	url = https://github.com/mustafaguven/product-service.git
+[submodule "eureka-server"]
+	path = eureka-server
+	url = https://github.com/mustafaguven/eureka-server.git
+[submodule "config-server"]
+	path = config-server
+	url = https://github.com/mustafaguven/config-server.git
+[submodule "catalog-service"]
+	path = catalog-service
+	url = https://github.com/mustafaguven/catalog-service.git
+[submodule "frontend-service"]
+	path = frontend-service
+	url = https://github.com/mustafaguven/frontend-service.git
+[submodule "payment-service"]
+	path = payment-service
+	url = https://github.com/mustafaguven/payment-service.git
