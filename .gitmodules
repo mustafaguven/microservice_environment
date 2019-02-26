@@ -37,3 +37,6 @@
 [submodule "payment-service"]
 	path = payment-service
 	url = https://github.com/mustafaguven/payment-service.git
+[submodule "event-handler-service"]
+	path = event-handler-service
+	url = https://github.com/mustafaguven/event-handler-service.git
