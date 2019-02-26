@@ -23,6 +23,10 @@ FrontEnd Service  | 14000 ~  | Java
 
 jwtcommon (spring security common lib) is used by zuul-api and auth-center (https://github.com/mustafaguven/jwtcommon)
 
+event-handler-service, a library that is used by microservices. Acts as single source of truth so it holds a simple config infrastructure that allows event sourcing and cqrs mechanism. (in this particular case mongo is used as the data source) 
+
+* all additional libraries must be installed into local repo before using otherwise microservices will not be compiled (mvn clean install)
+
 # Notes
                 
 1. The config server should be started before eureka server due to the configured environment which has been set as config-first.    
