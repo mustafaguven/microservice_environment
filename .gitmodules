@@ -40,3 +40,6 @@
 [submodule "event-handler-service"]
 	path = event-handler-service
 	url = https://github.com/mustafaguven/event-handler-service.git
+[submodule "order-service"]
+	path = order-service
+	url = https://github.com/mustafaguven/order-service.git
