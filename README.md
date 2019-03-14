@@ -14,7 +14,7 @@ Hystrix Dashboard | 7979 ~ (management: 7980)   | Java
 Turbine  | 9999 ~  | Java
 Zuul API Proxy  | 8400 ~  | Java
 Auth Center  | 8081 ~  | Java
-Catalog Service  | 8800 ~  | Java
+Catalog Service  | 8800 ~  | Kotlin
 Payment Service  | 8900 ~  | Java
 Order Service  | 9010 ~  | Kotlin
 Product Service  | 9000 ~  | Kotlin
