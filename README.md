@@ -20,11 +20,16 @@ Order Service  | 9010 ~  | Kotlin
 Product Service  | 9000 ~  | Kotlin
 FrontEnd Service  | 14000 ~  | Java
 
-# Additional Library
+# Additional Libraries
+
+ Application  | Language
+------------- | -----------
+JwtCommon  | Java
+CommandGateway - EventBus Manager  | Kotlin
 
 jwtcommon (spring security common lib) is used by zuul-api and auth-center (https://github.com/mustafaguven/jwtcommon)
 
-event-handler-service, a tiny library written in kotlin that is used by microservices. Acts as single source of truth so it holds a simple config infrastructure that allows event sourcing and cqrs mechanism. (in this particular case mongo is used as the data source) 
+event-handler-service, a tiny library written in kotlin that is used by microservices. Acts as single source of truth so it holds a simple config infrastructure that allows event sourcing and cqrs mechanism. (in this particular case mongo is used as the data source) (https://github.com/mustafaguven/event-handler-service)
 
 * all additional libraries must be installed into local repo before using otherwise microservices will not be compiled (mvn clean install)
 
