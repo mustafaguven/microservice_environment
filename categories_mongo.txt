@@ -1,0 +1,89 @@
+//db.categories.updateOne({title: 'Spor 1'}, {$set: {title: "Spor"}});
+
+//db.categories.updateMany({}, {$retitle: {"parent": "parentId"}}, false, true);
+
+db.example.update({}, {$unset: {words:1}}, false, true);
+
+//update
+db.categories.updateOne({_id: ObjectId("5ca33a3321416b922e4a3012")},
+{$set: {brands: [
+ObjectId("5ca48a9921416b922e4a3023"),
+ObjectId("5ca48a9921416b922e4a3024"),
+ObjectId("5ca48a9921416b922e4a3025"),
+ObjectId("5ca48a9921416b922e4a3026")
+]}});
+
+db.categories.aggregate([
+   {
+     $lookup:
+       {
+         from: "brands",
+         localField: "brands",
+         foreignField: "_id",
+         as: "brands"
+       }
+  },
+  {
+      $project: {"brands.categories": 0}
+  }
+])
+
+use categories;
+
+db.categories.insertMany([{title: 'Elektronik'}, {title: 'Spor'}, {title: 'Kozmetik'}]);
+
+db.categories.insertMany([
+{title: 'Bilgisayar', parentId: ObjectId("5ca3395621416b922e4a300f")},
+{title: 'Televizyon', parentId: ObjectId("5ca3395621416b922e4a300f")},
+{title: 'Ev, Sinema Sistemleri', parentId: ObjectId("5ca3395621416b922e4a300f")},
+{title: 'Uydu Alicilari', parentId: ObjectId("5ca3395621416b922e4a300f")},
+{title: 'Guvenlik Sistemleri', parentId: ObjectId("5ca3395621416b922e4a300f")},
+
+{title: 'Fitness', parentId: ObjectId("5ca3395621416b922e4a3010")},
+{title: 'Sporcu Besinleri', parentId: ObjectId("5ca3395621416b922e4a3010")},
+{title: 'Giyim', parentId: ObjectId("5ca3395621416b922e4a3010")},
+{title: 'Outdoor', parentId: ObjectId("5ca3395621416b922e4a3010")},
+
+{title: 'Parfum', parentId: ObjectId("5ca3395621416b922e4a3011")},
+{title: 'Agiz Bakim Urunleri', parentId: ObjectId("5ca3395621416b922e4a3011")},
+{title: 'Cilt - Vucut Bakim Urunleri', parentId: ObjectId("5ca3395621416b922e4a3011")},
+{title: 'Makyaj Malzemeleri', parentId: ObjectId("5ca3395621416b922e4a3011")}
+]);
+
+
+db.categories.insertMany([
+{title: 'Televizyon', parentId: ObjectId("5ca33a3321416b922e4a3012"), priority: 0, type: 'Category'},
+{title: 'Ev Sinema Sistemleri', parentId: ObjectId("5ca33a3321416b922e4a3012"), priority: 1, type: 'Category'},
+{title: 'Bluetooth Hoparlor', parentId: ObjectId("5ca33a3321416b922e4a3012"), priority: 2, type: 'Category'},
+{title: 'Muzik Sistemleri', parentId: ObjectId("5ca33a3321416b922e4a3012"), priority: 3, type: 'Category'}
+]);
+
+db.categories.insertMany([
+{title: 'Samsung', parentId: ObjectId("5ca70a9021416b922e4a3027"), priority: 0, type: 'Brand'},
+{title: 'Vestel', parentId: ObjectId("5ca70a9021416b922e4a3027"), priority: 1, type: 'Brand'},
+{title: 'LG', parentId: ObjectId("5ca70a9021416b922e4a3027"), priority: 2, type: 'Brand'},
+{title: 'Sony', parentId: ObjectId("5ca70a9021416b922e4a3027"), priority: 3, type: 'Brand'}
+]);
+
+db.brands.insertMany([
+{title: 'Arcelik', categoryId: ObjectId("5ca3395621416b922e4a300f")},
+{title: 'Samsung', categoryId: ObjectId("5ca3395621416b922e4a300f")},
+{title: 'Sony', categoryId: ObjectId("5ca3395621416b922e4a300f")},
+{title: 'LG', categoryId: ObjectId("5ca3395621416b922e4a300f")}
+]);
+
+
+
+
+//fun showSpecifiedCatalogItemWithChildren(_id: ObjectId) = categoryRepository.findBy_id(_id)
+
+/*    fun lookupOperation(): MutableList<CategoryDocument> {
+    val lookupOperation = LookupOperation.newLookup()
+            .from(MongoDBConfig.BRANDS)
+            .localField("brands")
+            .foreignField("_id")
+            .`as`("brands")
+
+    val aggregation = Aggregation.newAggregation(lookupOperation)
+    return mongoTemplate.aggregate(aggregation, MongoDBConfig.CATEGORIES, CategoryDocument::class.java).mappedResults
+}*/

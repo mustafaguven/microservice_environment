@@ -31,6 +31,16 @@ services:
     networks:
       - backend
 
+  catalog-mongodb:
+   container_name: catalog-mongodb
+   image: mongo
+   restart: always
+   ports:
+     - 27017:27017
+     - 27019:27019
+   networks:
+     - backend
+
   redis:
    container_name: redis
    image: redis
@@ -41,22 +51,6 @@ services:
      - 6379:6379
    networks:
      - backend
-
-  catalog-mongodb:
-   container_name: catalog-mongodb
-   image: mongo
-   restart: always
-   ports:
-     - 27017:27017
-     - 27019:27019
-   environment:
-     - MONGO_DATA_DIR=/data/db
-     - MONGO_LOG_DIR=/dev/null
-   networks:
-     - backend
-   volumes:
-     - catalog-mongodb:/data/db
-     - catalog-mongodb_config:/data/configdb
 
   mysql:
     image: "mysql:5.6"
@@ -112,54 +106,54 @@ services:
       ports:
         - "8400:8400"
 
-  # catalog-service:
-  #   container_name: catalog-service
-  #   image: catalog-service
-  #   restart: always
-  #   ports:
-  #     - 8800:8800
-  #   # expose:
-  #   #   - "8800"
-  #   networks:
-  #     - backend
-  #   depends_on:
-  #     - zuul-proxy
+  catalog-service:
+    container_name: catalog-service
+    image: catalog-service
+    restart: always
+    ports:
+      - 8800:8800
+    # expose:
+    #   - "8800"
+    networks:
+      - backend
+    depends_on:
+      - zuul-proxy
 
-  # product-service:
-  #   #container_name: product-service
-  #   image: product-service
-  #   restart: always
-  #   # ports:
-  #   #   - 9000:9000
-  #   expose:
-  #     - "9000"
-  #   networks:
-  #     - backend
-  #   depends_on:
-  #     - zuul-proxy
+  product-service:
+    #container_name: product-service
+    image: product-service
+    restart: always
+    # ports:
+    #   - 9000:9000
+    expose:
+      - "9000"
+    networks:
+      - backend
+    depends_on:
+      - zuul-proxy
 
-  # hystrix-dashboard:
-  #   container_name: hystrix-dashboard
-  #   image: hystrix-dashboard
-  #   restart: unless-stopped
-  #   ports:
-  #     - 7979:7979
-  #     - 7980:7980
-  #   networks:
-  #     - backend
-  #   depends_on:
-  #     - eureka-server
-  #
-  # turbine:
-  #   container_name: turbine
-  #   image: turbine
-  #   restart: unless-stopped
-  #   ports:
-  #     - 9999:9999
-  #   networks:
-  #     - backend
-  #   depends_on:
-  #     - eureka-server
+  hystrix-dashboard:
+    container_name: hystrix-dashboard
+    image: hystrix-dashboard
+    restart: unless-stopped
+    ports:
+      - 7979:7979
+      - 7980:7980
+    networks:
+      - backend
+    depends_on:
+      - eureka-server
+
+  turbine:
+    container_name: turbine
+    image: turbine
+    restart: unless-stopped
+    ports:
+      - 9999:9999
+    networks:
+      - backend
+    depends_on:
+      - eureka-server
 
 networks:
   backend:
@@ -167,5 +161,3 @@ networks:
 
 volumes:
   mysql-volume:
-  catalog-mongodb:
-  catalog-mongodb_config:

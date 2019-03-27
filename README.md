@@ -25,11 +25,11 @@ FrontEnd Service  | 14000 ~  | Java
  Application  | Language
 ------------- | -----------
 JwtCommon  | Java
-CommandGateway - EventBus Manager  | Kotlin
+EveCom (CommandGateway - EventBus Manager)  | Kotlin
 
 jwtcommon (spring security common lib) is used by zuul-api and auth-center (https://github.com/mustafaguven/jwtcommon)
 
-event-handler-service, a tiny library written in kotlin that is used by microservices. Acts as single source of truth so it holds a simple config infrastructure that allows event sourcing and cqrs mechanism. (in this particular case mongo is used as the data source) (https://github.com/mustafaguven/event-handler-service)
+EveCom (event-handler-service), a tiny library written in kotlin that is used by microservices. Acts as single source of truth so it holds a simple config infrastructure that allows event sourcing and cqrs mechanism. (in this particular case mongo is used as the data source) (https://github.com/mustafaguven/event-handler-service)
 
 * all additional libraries must be installed into local repo before using otherwise microservices will not be compiled (mvn clean install)
 
@@ -83,3 +83,68 @@ docker exec -it mysql sh
 (having entered into the container shell)
 mysql -uroot -ppassword
 ```
+
+13. Sample endpoint to list queries of a service. (bearer token will be different than the sample) 
+```
+curl -X GET \
+  http://localhost:8400/api/catalog/rest \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZyIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1NTYxOTQ1NzAsImV4cCI6MTU1NjE5NjM3MH0.9miGyaVmyIAEZfg744OVsKO2lVLm4f-YTBCVamZZL-c' \
+  -H 'Content-Type: application/json' \
+
+{
+    "_links": {
+        "instanceId": {
+            "href": "http://10.6.0.24:8800/instanceId",
+            "type": "GET"
+        },
+        "query": [
+            {
+                "href": "http://10.6.0.24:8800/category/command",
+                "title": "command",
+                "type": "GET"
+            },
+            {
+                "href": "http://10.6.0.24:8800/",
+                "title": "getAllCategory",
+                "type": "GET"
+            },
+            {
+                "href": "http://10.6.0.24:8800/5cc1a7e501ed3a13d3b2b362",
+                "title": "getCategoryById",
+                "type": "GET"
+            }
+        ]
+    }
+}
+```
+
+14. Sample endpoint to list any commands of a service. (bearer token will be different than the sample)
+```
+curl -X GET \
+  http://localhost:8400/api/catalog/category/command/rest \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZyIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1NTYxOTQ1NzAsImV4cCI6MTU1NjE5NjM3MH0.9miGyaVmyIAEZfg744OVsKO2lVLm4f-YTBCVamZZL-c' \
+  -H 'Content-Type: application/json' \
+  
+{
+    "_links": {
+        "instanceId": {
+            "href": "http://10.6.0.24:8800/category/command/instanceId",
+            "type": "GET"
+        },
+        "command": [
+            {
+                "href": "http://10.6.0.24:8800/category/command/create",
+                "title": "creates category",
+                "type": "POST"
+            },
+            {
+                "href": "http://10.6.0.24:8800/category/command/delete",
+                "title": "deletes category",
+                "type": "DELETE"
+            }
+        ]
+    }
+}  
+```
+
+

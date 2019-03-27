@@ -7,7 +7,8 @@ create table users(
    enabled tinyint not null default 1);
 
 insert into users(username, password, enabled) values ('mg', '$2a$12$HZoku.umC/s1qYDK5pyuYOD42ruDGg9m9bOGBQQ2wTDnwWyZZh9Tm', true);
-insert into users(username, password, enabled) values ('admin', ''$2a$12$ZM8VQS1ma8xzZkh2IAU2xey12eQiqhlvlSVglfOSiwDVzIrSkfxdO', true);
+insert into users(username, password, enabled) values ('admin', '$2a$12$W5PrCSR5pNm.GBp8lfAATOXLnYgyFKTATMK9jS6Ptx0wrJzK/wvNO', true);
+
 
 create table authorities(username varchar(60) not null,
       authority varchar(60) not null,
@@ -21,3 +22,4 @@ create unique index auth_uniq_indx on authorities(username, authority);
 
 CREATE TABLE routingRules (   id INT NOT NULL AUTO_INCREMENT,   uri VARCHAR(100) DEFAULT NULL, role VARCHAR(50) not null,  PRIMARY KEY (id) );
 insert into routingRules (uri, role) values ('/api/product/**', 'USER');
+insert into routingRules (uri, role) values ('/api/catalog/**', 'USER');
