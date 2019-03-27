@@ -54,6 +54,9 @@ services:
      - MONGO_LOG_DIR=/dev/null
    networks:
      - backend
+   volumes:
+     - catalog-mongodb:/data/db
+     - catalog-mongodb_config:/data/configdb
 
   mysql:
     image: "mysql:5.6"
@@ -164,3 +167,5 @@ networks:
 
 volumes:
   mysql-volume:
+  catalog-mongodb:
+  catalog-mongodb_config:
