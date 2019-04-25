@@ -147,4 +147,9 @@ curl -X GET \
 }  
 ```
 
+# Continuous Integration
+CI processes have been doing through jenkins. To give an idea a result pic is shared.
+
+![](https://s3-eu-west-1.amazonaws.com/videotestpoc/Screen+Shot+2019-04-25+at+15.50.06.png)
+
 
